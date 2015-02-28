@@ -1,0 +1,7 @@
+// @import "font-awesome/scss/font-awesome";
+
+// Relative path to Bootstrap fonts from .tmp/server/app
+$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+
+// Relative path to Bootstrap from this folder
+@import 'bower_components/bootstrap-sass/assets/stylesheets/bootstrap';

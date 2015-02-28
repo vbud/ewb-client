@@ -1,0 +1,25 @@
+{
+  "name": "ewbClient",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular-ui-router": "~0.2.13",
+    "angular-material": "~0.8.0",
+    "angular": "~1.3.4",
+    "angular-socket-io": "~0.7.0",
+    "d3": "~3.5.5",
+    "lodash": "~3.3.0",
+    "jquery": "~2.1.3",
+    "spectrum": "~1.6.1",
+    "font-awesome": "~4.3.0",
+    "bootstrap-sass": "~3.3.3"
+  },
+  "devDependencies": {},
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "./scss/font-awesome.scss",
+        "./fonts/*"
+      ]
+    }
+  }
+}

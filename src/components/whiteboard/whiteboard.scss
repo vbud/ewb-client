@@ -1,0 +1,59 @@
+.whiteboard-container, whiteboard {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+
+/***** SVG whiteboard styles *****/
+
+.overlay {
+  fill: #fff;
+  pointer-events: all;
+}
+
+whiteboard {
+  .text-writer {
+    position: absolute;
+
+    .expanding-wrapper {
+      min-width: 12px;
+      //can add a max-width here if I want, otherwise it will expand to infinite width until a line break, much like this comment
+    }
+  }
+}
+
+.selection-box {
+  position: absolute;
+  stroke: #000;
+  stroke-width: 1;
+  stroke-dasharray: 5;
+  fill: none;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+
+
+/***** Minimap *****/
+
+.minimap {
+
+  .canvas {
+    stroke: #000;
+    stroke-width: 1;
+    fill: #fff;
+  }
+
+  .viewbox {
+    stroke: #000;
+    stroke-width: 1;
+    fill: #888;
+    fill-opacity: 0.2;
+  }
+}
