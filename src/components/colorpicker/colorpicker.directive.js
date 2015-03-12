@@ -23,9 +23,13 @@ function ColorPickerDirective(ColorService) {
     };
     // Save the final chosen color (when the colorpicker window is hidden, clicked outside, or closed via a button)
     var onChange = function(color) {
-      if(attrs.color === 'fill') ColorService.setFill( color.toString() );
-      else if(attrs.color === 'stroke') ColorService.setStroke( color.toString() );
-      else if(attrs.color === 'text') ColorService.setText( color.toString() );
+      if (color === null || color === undefined)
+        color = 'none';
+      else 
+        color = color.toString();
+      if(attrs.color === 'fill') ColorService.setFill( color );
+      else if(attrs.color === 'stroke') ColorService.setStroke( color );
+      else if(attrs.color === 'text') ColorService.setText( color );
     };
     var onToggle = function() {
       $picker.spectrum('toggle');
