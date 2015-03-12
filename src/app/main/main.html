@@ -1,72 +1,72 @@
-<whiteboard-directive></whiteboard-directive>
+<whiteboard></whiteboard>
 
 <!-- Tools anchored to top left -->
 <div class="tools">
-  <div class="tool tool-pan" data-ng-class="{active: isActiveMode('pan')}" data-ng-click="setActiveMode('pan')">
+  <div class="tool tool-pan" ng-class="{active: isActiveMode('pan')}" ng-click="setActiveMode('pan')">
     <span ng-include="'../../assets/images/move.svg'"></span>
   </div>
-  <div class="tool tool-select" data-ng-class="{active: isActiveMode('select')}" data-ng-click="setActiveMode('select')">
+  <div class="tool tool-select" ng-class="{active: isActiveMode('select')}" ng-click="setActiveMode('select')">
     <span ng-include="'../../assets/images/target.svg'"></span>
   </div>
-  <div class="tool tool-draw" data-ng-class="{active: isActiveMode('draw')}" data-ng-click="setActiveMode('draw')">
+  <div class="tool tool-draw" ng-class="{active: isActiveMode('draw')}" ng-click="setActiveMode('draw')">
     <span ng-include="'../../assets/images/curve.svg'"></span>
   </div>
-  <div class="tool tool-line" data-ng-class="{active: isActiveMode('line')}" data-ng-click="setActiveMode('line')">
+  <div class="tool tool-line" ng-class="{active: isActiveMode('line')}" ng-click="setActiveMode('line')">
     <span ng-include="'../../assets/images/line.svg'"></span>
   </div>
-  <div class="tool tool-rectangle" data-ng-class="{active: isActiveMode('rectangle')}" data-ng-click="setActiveMode('rectangle')">
+  <div class="tool tool-rectangle" ng-class="{active: isActiveMode('rectangle')}" ng-click="setActiveMode('rectangle')">
     <span ng-include="'../../assets/images/rectangle.svg'"></span>
   </div>
-  <div class="tool tool-circle" data-ng-class="{active: isActiveMode('circle')}" data-ng-click="setActiveMode('circle')">
+  <div class="tool tool-circle" ng-class="{active: isActiveMode('circle')}" ng-click="setActiveMode('circle')">
     <span ng-include="'../../assets/images/circle.svg'"></span>
   </div>
-  <div class="tool tool-ellipse" data-ng-class="{active: isActiveMode('ellipse')}" data-ng-click="setActiveMode('ellipse')">
+  <div class="tool tool-ellipse" ng-class="{active: isActiveMode('ellipse')}" ng-click="setActiveMode('ellipse')">
     <span ng-include="'../../assets/images/ellipse.svg'"></span>
   </div>
-  <div class="tool tool-text" data-ng-class="{active: isActiveMode('text')}" data-ng-click="setActiveMode('text')">
+  <div class="tool tool-text" ng-class="{active: isActiveMode('text')}" ng-click="setActiveMode('text')">
     <span ng-include="'../../assets/images/text.svg'"></span>
   </div>
-  <div class="tool tool-erase" data-ng-class="{active: isActiveMode('erase')}" data-ng-click="setActiveMode('erase')">
+  <div class="tool tool-erase" ng-class="{active: isActiveMode('erase')}" ng-click="setActiveMode('erase')">
     <span ng-include="'../../assets/images/delete.svg'"></span>
   </div>
 </div>
 
 <!-- Tools anchored to bottom left -->
 <div class="colors">
-  <div colorpicker class="tool tool-color-fill" data-ng-model="fillColor" data-color="fill">
+  <div colorpicker class="tool tool-color-fill" ng-model="fillColor" color="fill">
     <span ng-include="'../../assets/images/rectangle.svg'"></span>
     <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-      <circle r="23" cy="25" cx="25" data-ng-style="{fill: fillColor}" stroke="none" />
+      <circle r="23" cy="25" cx="25" ng-style="{fill: fillColor}" stroke="none" />
     </svg>
   </div>
-  <div colorpicker class="tool tool-color-stroke" data-ng-model="strokeColor" data-color="stroke">
+  <div colorpicker class="tool tool-color-stroke" ng-model="strokeColor" color="stroke">
     <span ng-include="'../../assets/images/line.svg'"></span>
     <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-      <circle r="23" cy="25" cx="25" data-ng-style="{fill: strokeColor}" stroke="none" />
+      <circle r="23" cy="25" cx="25" ng-style="{fill: strokeColor}" stroke="none" />
     </svg>
   </div>
-  <div colorpicker class="tool tool-color-text" data-ng-model="textColor" data-color="text">
+  <div colorpicker class="tool tool-color-text" ng-model="textColor" color="text">
     <span ng-include="'../../assets/images/text.svg'"></span>
     <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-      <circle r="23" cy="25" cx="25" data-ng-style="{fill: textColor}" stroke="none" />
+      <circle r="23" cy="25" cx="25" ng-style="{fill: textColor}" stroke="none" />
     </svg>
   </div>
 </div>
 
 <!-- Tools anchored to top right -->
 <div class="whiteboards">
-  <!-- <div class="whiteboard-selector btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-      {{activeWhiteboard.name}} <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-      <li data-ng-repeat="wb in whiteboards" data-ng-click="changeWhiteboard(wb.id)"><a data-target="#">{{wb.name}}</a></li>
-    </ul>
-  </div> -->
   <h3>Whiteboards</h3>
-  <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span>Create new whiteboard</button>
+  <form>
+    <div class="form-group">
+      <input class="form-control" type="text" placeholder="New whiteboard name" ng-model="newWhiteboardName" ></input>
+      <button type="submit" class="btn btn-primary" ng-click="createWhiteboard(newWhiteboardName)">Create whiteboard</button>
+    </div>
+  </form>
   <ul class="whiteboard-list">
-    <li data-ng-repeat="wb in whiteboards" data-ng-click="changeWhiteboard(wb.id)"><a data-target="#">{{wb.name}}</a></li>
+    <li ng-repeat="wb in whiteboards" ng-class="{active: wb.id === activeWhiteboard.id}">
+      <span class="whiteboard-name" ng-click="changeWhiteboard(wb.id)">{{wb.name}}</span>
+      <span class="whiteboard-delete glyphicon glyphicon-trash" ng-click="deleteWhiteboard(wb.id)"></span>
+    </li>
   </ul>
 </div>
 

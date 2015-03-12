@@ -1,6 +1,17 @@
-// Import the scss files of all pages and components
+//===== Import vendor scss first
+@import 'vendor';
 
+
+
+//===== Then import shared scss
+@import 'shared';
+
+
+
+//===== Then import the scss files of all pages and components
 // injector
+@import 'shared.scss';
+@import 'vendor.scss';
 @import 'main/main.scss';
 @import '../components/whiteboard/whiteboard.scss';
 // endinjector

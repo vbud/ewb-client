@@ -13,7 +13,7 @@ import LineService from '../services/shapes/line.service';
 import PolylineService from '../services/shapes/polyline.service';
 import RectService from '../services/shapes/rect.service';
 // directives
-import ColorpickerDirective from '../components/colorpicker/colorpicker.directive';
+import ColorPickerDirective from '../components/colorpicker/colorpicker.directive';
 import WhiteboardDirective from '../components/whiteboard/whiteboard.directive';
 // controllers
 import NavbarCtrl from '../components/navbar/navbar.controller';
@@ -32,8 +32,8 @@ angular.module('ewbClient', ['ui.router', 'ngMaterial', 'btford.socket-io'])
   .service('LineService', LineService)
   .service('PolylineService', PolylineService)
   .service('RectService', RectService)
-  .directive('ColorpickerDirective', ColorpickerDirective)
-  .directive('WhiteboardDirective', WhiteboardDirective)
+  .directive('colorpicker', ColorPickerDirective)
+  .directive('whiteboard', WhiteboardDirective)
   .controller('MainCtrl', MainCtrl)
   .controller('NavbarCtrl', NavbarCtrl)
 

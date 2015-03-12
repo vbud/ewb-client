@@ -15,11 +15,10 @@ gulp.task('styles', function () {
 
   // get the paths of all the SASS files in the project, ignoring the special ones
   var injectFiles = gulp.src([
-    paths.src + '/{app,components}/**/*.scss',
-    '!' + paths.src + '/app/vendor.scss',
-    '!' + paths.src + '/app/shared.scss',
-    '!' + paths.src + '/app/index.scss'
-  ], { read: false }).pipe($.debug({title: 'DEBUG: paths to inject'}));
+      paths.src + '/{app,components}/**/*.scss',
+      '!' + paths.src + '/app/index.scss'
+    ], { read: false });
+    // .pipe($.debug({title: 'DEBUG: paths to inject'}));
 
   // custom transform to perform SASS injection of all the project's SASS files automatically, rather than having to create each @import manually
   var injectOptions = {
@@ -39,21 +38,19 @@ gulp.task('styles', function () {
   var indexFilter = $.filter('index.scss');
 
   return gulp.src([
-      paths.src + '/app/vendor.scss',
-      paths.src + '/app/shared.scss',
       paths.src + '/app/index.scss',
     ])
-    .pipe($.debug({title: 'DEBUG: styles sources'}))
+    // .pipe($.debug({title: 'DEBUG: styles sources'}))
     // filter to index.scss only for injection operation
     .pipe(indexFilter)
-    .pipe($.debug({title: 'DEBUG: just index.scss'}))
+    // .pipe($.debug({title: 'DEBUG: just index.scss'}))
     // inject the paths of all the SASS files into index.scss
     .pipe($.inject(injectFiles, injectOptions))
     // write the file with the injections
     .pipe(gulp.dest(paths.src + '/app'))
     // un-filter
     .pipe(indexFilter.restore())
-    .pipe($.debug({title: 'DEBUG: restored styles sources'}))
+    // .pipe($.debug({title: 'DEBUG: restored styles sources'}))
     // run node-sass over all the SASS files
     .pipe($.sass(sassOptions))
     // prefix the CSS with browser prefixes (e.g. -moz-, -webkit-)

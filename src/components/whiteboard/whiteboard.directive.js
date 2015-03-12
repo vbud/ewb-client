@@ -196,7 +196,7 @@ function WhiteboardDirective($rootScope, DataService, ModeService, PolylineServi
     update(); //initial whiteboard update, sans data
 
 
-    scope.$on('whiteboards:data', function(event, data) {
+    scope.$on('whiteboards:active:data', function(event, data) {
       console.log('Data updated, updating whiteboard...');
       console.log(data);
       

@@ -11,7 +11,9 @@
     "jquery": "~2.1.3",
     "spectrum": "~1.6.1",
     "font-awesome": "~4.3.0",
-    "bootstrap-sass": "~3.3.3"
+    "bootstrap-sass": "~3.3.3",
+    "expanding-textareas": "~0.2.0",
+    "node-uuid": "~1.4.3"
   },
   "devDependencies": {},
   "overrides": {

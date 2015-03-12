@@ -8,32 +8,30 @@ function DataService($rootScope, UserService, SocketService) {
 
   // Array of objects that define SVGs
   var data = [], //current whiteboard data
-      activeWhiteboard, //whiteboard object (must equal one of the objects in #availableWhiteboards)
-      availableWhiteboards = []; //array of whiteboard objects
+      activeWhiteboard, //whiteboard object (must equal one of the objects in whiteboards)
+      whiteboards = []; //array of whiteboard objects
 
 
   // Server sends available whiteboards
-  socket.on('hello', function(wbs) {
-    availableWhiteboards = wbs;
-    broadcastAvailableWhiteboards();
-    changeWhiteboard( wbs[0].id ); //default to first whiteboard
+  socket.on('hello', function() {
+    console.log('Connected to server');
   })
 
-  // Server updates the active whiteboard, possibly changing it if this client requested the change
+  // When the whiteboard list changes
+  socket.on('updateWhiteboardList', function(_whiteboards) {
+    whiteboards = _whiteboards;
+    broadcastAvailableWhiteboards();
+  })
+
+  // Server sets the active whiteboard and updates its name and data
   socket.on('updateWhiteboard', function(wb) {
     console.log('New whiteboard data incoming from server.');
-    activeWhiteboard = _.find(availableWhiteboards, {id: wb.id});
-    activeWhiteboard.name = wb.name;
-    broadcastActiveWhiteboard();
-    data = wb.data;
-    broadcastData();
-  })
+    activeWhiteboard = _.find(whiteboards, {id: wb.id});
 
-  // Server sends new available whiteboards
-  socket.on('newAvailableWhiteboards', function(wbs) {
-    // add new whiteboards to array of available whiteboards
-    availableWhiteboards = _.union(availableWhiteboards, wbs);
-    broadcastAvailableWhiteboards();
+    data = wb.data;
+    
+    broadcastActiveWhiteboard();
+    broadcastData();
   })
 
 
@@ -72,8 +70,10 @@ function DataService($rootScope, UserService, SocketService) {
     }
     
     broadcastData();
-    emitData();
+    updateWhiteboardData();
   }
+
+
 
   // Removes an existing object (or array of objects)
   function remove(obj) {
@@ -99,20 +99,20 @@ function DataService($rootScope, UserService, SocketService) {
     }
     
     broadcastData();
-    emitData();      
+    updateWhiteboardData();      
   }
 
   
 
 
 
-  // Doing some light pub/sub here. All whiteboard and data-related events originate here.
+  // Doing some light local pub/sub here. All whiteboard and data-related events originate here.
   function broadcastData() {
-    $rootScope.$broadcast('whiteboards:data', data);
+    $rootScope.$broadcast('whiteboards:active:data', data);
   }
 
   function broadcastAvailableWhiteboards() {
-    $rootScope.$broadcast('whiteboards:available', availableWhiteboards);
+    $rootScope.$broadcast('whiteboards:available', whiteboards);
   }
 
   function broadcastActiveWhiteboard() {
@@ -122,39 +122,41 @@ function DataService($rootScope, UserService, SocketService) {
 
 
 
-
-  // Updates name of active whiteboard and sends updated whiteboard name to the server
-  function changeWhiteboardName(name) {
-    activeWhiteboard.name = name;
-    broadcastActiveWhiteboard();
-    emitName();
+  // Create a new whiteboard and go to it
+  function createWhiteboard(name) {
+    socket.emit('createWhiteboard', name);
   }
 
-  // Changes the active whiteboard to the whiteboard specified by #id
+  // Delete a whiteboard
+  function deleteWhiteboard(id) {
+    socket.emit('deleteWhiteboard', id);
+  }  
+
+  // Changes the active whiteboard to the whiteboard specified by id
   function changeWhiteboard(id) {
     socket.emit('joinWhiteboard', id);
   }
 
+  // Updates name of active whiteboard and sends updated whiteboard name to the server
+  function updateWhiteboardName(name) {
+    activeWhiteboard.name = name;
+    broadcastActiveWhiteboard();
+    var d = {
+      id: activeWhiteboard.id,
+      name: activeWhiteboard.name
+    };
+    socket.emit('updateWhiteboard', d);
+  }
+
   // Sends updated whiteboard data to the server
-  function emitData() {
+  function updateWhiteboardData() {
     // Assemble the data package to send to server
     var d = {
       id: activeWhiteboard.id,
       data: data
     };
-    socket.emit('updateWhiteboardData', d);
+    socket.emit('updateWhiteboard', d);
   }
-
-  // Sends updated whiteboard data to the server
-  function emitName() {
-    // Assemble the data package to send to server
-    var d = {
-      id: activeWhiteboard.id,
-      name: activeWhiteboard.name
-    };
-    socket.emit('updateWhiteboardName', d);
-  }
-
 
 
 
@@ -167,13 +169,15 @@ function DataService($rootScope, UserService, SocketService) {
     },
     // returns the currently available whiteboards
     getWhiteboards: function() {
-      return availableWhiteboards;
+      return whiteboards;
     },
     getActiveWhiteboard: function() {
       return activeWhiteboard;
     },
+    createWhiteboard: createWhiteboard,
+    deleteWhiteboard: deleteWhiteboard,
     changeWhiteboard: changeWhiteboard,
-    changeWhiteboardName: changeWhiteboardName,
+    updateWhiteboardName: updateWhiteboardName,
     add: add,
     remove: remove,
     // finds an object by its id and prints it to console
@@ -182,7 +186,5 @@ function DataService($rootScope, UserService, SocketService) {
     }
   };
 }
-
-DataService.$inject = ['$rootScope', 'UserService', 'SocketService'];
 
 export default DataService;
