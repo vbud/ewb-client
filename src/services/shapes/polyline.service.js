@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function PolylineService(DataService, ColorService) {
+angular.module('ewbClient')
+.service('PolylineService', function (DataService, ColorService) {
 
 	var shapeData, g, svg;
 
@@ -59,6 +59,4 @@ function PolylineService(DataService, ColorService) {
 		draw: draw,
 		finish: finish
 	};
-}
-
-export default PolylineService;
+});

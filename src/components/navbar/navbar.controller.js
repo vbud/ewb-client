@@ -1,10 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-class NavbarCtrl {
-  constructor ($scope) {
-  	
-  }
-}
+angular.module('ewbClient')
+.controller('NavbarCtrl', function () {
 
-export default NavbarCtrl;
+  
+});

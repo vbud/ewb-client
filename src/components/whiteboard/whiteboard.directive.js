@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function WhiteboardDirective($rootScope, DataService, ModeService, PolylineService, LineService, RectService, CircleService, EllipseService) {
+angular.module('ewbClient')
+.directive('whiteboard', function ($rootScope, DataService, ModeService, PolylineService, LineService, RectService, CircleService, EllipseService) {
 
   function link(scope, element, attrs) {
 
@@ -481,6 +481,4 @@ function WhiteboardDirective($rootScope, DataService, ModeService, PolylineServi
     link: link
   };
 
-}
-
-export default WhiteboardDirective;
+});

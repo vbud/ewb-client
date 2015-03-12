@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function LineService(DataService, ColorService) {
+angular.module('ewbClient')
+.service('LineService', function (DataService, ColorService) {
 
   var shapeData, g, svg;
 
@@ -64,6 +64,4 @@ function LineService(DataService, ColorService) {
     finish: finish
   };
 
-}
-
-export default LineService;
+});

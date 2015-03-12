@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function UserService() {
+angular.module('ewbClient')
+.service('UserService', function () {
 
 	var user = 'anonymous';
 
@@ -11,6 +11,4 @@ function UserService() {
 	  }
   };
 
-}
-
-export default UserService;
+});

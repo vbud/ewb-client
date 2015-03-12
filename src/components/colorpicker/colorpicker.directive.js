@@ -1,10 +1,10 @@
 'use strict';
-/*jshint esnext: true */
 
 // Based on angular-spectrum-colorpicker
 // https://github.com/Jimdo/angular-spectrum-colorpicker
 
-function ColorPickerDirective(ColorService) {
+angular.module('ewbClient')
+.directive('colorpicker', function (ColorService) {
 
   function link($scope, $element, attrs, $ngModel) {
 
@@ -86,6 +86,4 @@ function ColorPickerDirective(ColorService) {
     link: link
   };
 
-}
-
-export default ColorPickerDirective;
+});

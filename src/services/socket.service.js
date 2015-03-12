@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function SocketService(socketFactory) {
+angular.module('ewbClient')
+.service('SocketService', function(socketFactory) {
 	
 	var socket = socketFactory({
 		ioSocket: io.connect('localhost:3000')
@@ -11,6 +11,4 @@ function SocketService(socketFactory) {
 	
 	return socket;
 
-}
-
-export default SocketService;
+});

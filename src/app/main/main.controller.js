@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function MainCtrl($scope, DataService, ModeService, ColorService) {
+angular.module('ewbClient')
+.controller('MainCtrl', function ($scope, DataService, ModeService, ColorService) {
 
   $scope.newWhiteboardName = undefined;
   $scope.whiteboards = undefined;
@@ -44,8 +44,4 @@ function MainCtrl($scope, DataService, ModeService, ColorService) {
   $scope.fillColor = ColorService.getFill();
   $scope.strokeColor = ColorService.getStroke();
   $scope.textColor = ColorService.getText();
-}
-
-MainCtrl.$inject = ['$scope', 'DataService', 'ModeService', 'ColorService'];
-
-export default MainCtrl;
+});

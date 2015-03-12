@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function DataService($rootScope, UserService, SocketService) {
+angular.module('ewbClient')
+.service('DataService', function ($rootScope, UserService, SocketService) {
 
   var user = UserService.getCurrentUser(),
       socket = SocketService;
@@ -185,6 +185,4 @@ function DataService($rootScope, UserService, SocketService) {
       console.log( _.find(data, { id: id }) );
     }
   };
-}
-
-export default DataService;
+});

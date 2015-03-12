@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function ColorService() {
+angular.module('ewbClient')
+.service('ColorService', function () {
 
   // Set default colors
   var fill = '#00ff00',
@@ -44,6 +44,4 @@ function ColorService() {
     setStroke: setStroke,
     setText: setText,
   };
-}
-
-export default ColorService;
+});

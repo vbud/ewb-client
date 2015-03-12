@@ -1,8 +1,8 @@
 'use strict';
-/*jshint esnext: true */
 
-// Manages the mode (available and current modes)
-function ModeService($rootScope) {
+angular.module('ewbClient')
+.service('ModeService', function($rootScope) {
+  // Manages the mode (available and current modes)
 
   var modes = ['pan', 'select', 'draw', 'line', 'rectangle', 'circle', 'ellipse', 'text', 'erase'],
       activeMode = 'pan'; // pan is active mode by default
@@ -24,8 +24,4 @@ function ModeService($rootScope) {
       }
     }
   };
-}
-
-ModeService.$inject = ['$rootScope'];
-
-export default ModeService;
+});

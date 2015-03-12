@@ -8,14 +8,14 @@ var $ = require('gulp-load-plugins')();
 
 var wiredep = require('wiredep').stream;
 
-gulp.task('inject', ['styles', 'browserify'], function () {
+gulp.task('inject', ['styles'], function () {
 
   var injectStyles = gulp.src([
     paths.tmp + '/serve/{app,components}/**/*.css'
   ], { read: false });
 
   var injectScripts = gulp.src([
-    paths.tmp + '/serve/app/**/*.js',
+    paths.src + '/{app,components,services}/**/*.js',
     '!' + paths.src + '/{app,components,services}/**/*.spec.js',
     '!' + paths.src + '/{app,components,services}/**/*.mock.js'
   ], { read: false });
@@ -26,7 +26,8 @@ gulp.task('inject', ['styles', 'browserify'], function () {
   };
 
   var wiredepOptions = {
-    directory: 'bower_components'
+    directory: 'bower_components',
+    exclude: [/foundation\.js/, /foundation\.css/, /bootstrap\.css/, /foundation\.css/]
   };
 
   return gulp.src(paths.src + '/*.html')

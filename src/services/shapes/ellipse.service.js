@@ -1,7 +1,7 @@
 'use strict';
-/*jshint esnext: true */
 
-function EllipseService(DataService, ColorService) {
+angular.module('ewbClient')
+.service('EllipseService', function (DataService, ColorService) {
 
   var shapeData, g, svg;
 
@@ -69,6 +69,4 @@ function EllipseService(DataService, ColorService) {
     finish: finish
   };
 
-}
-
-export default EllipseService;
+});
