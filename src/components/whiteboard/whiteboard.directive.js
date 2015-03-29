@@ -69,7 +69,7 @@ angular.module('ewbClient')
             })
             .on('dragend', function(d) {
               d3.select(this).classed('dragging', false);
-              
+
               var newX = d3.event.sourceEvent.clientX - dragOffset.x,
                   newY = d3.event.sourceEvent.clientY - dragOffset.y;
               // Only update the data if the object has actually moved (dragstart fires on mousedown)
@@ -83,14 +83,14 @@ angular.module('ewbClient')
                   }
                 });
               }
-                
+
             })
     var draw = d3.behavior.drag()
             .on('dragstart', function() {
               PolylineService.create(g);
             })
             .on('drag', function() {
-              PolylineService.draw(d3.event.x, d3.event.y);
+              PolylineService.draw(d3.event.x + view.x, d3.event.y + view.y);
             })
             .on('dragend', function(d) {
               PolylineService.finish();
@@ -100,7 +100,8 @@ angular.module('ewbClient')
               LineService.create(g);
             })
             .on('drag', function() {
-              LineService.draw(d3.event.x, d3.event.y);
+              console.log(d3.event);
+              LineService.draw(d3.event.x + view.x, d3.event.y + view.y);
             })
             .on('dragend', function(d) {
               LineService.finish();
@@ -110,7 +111,7 @@ angular.module('ewbClient')
               RectService.create(g);
             })
             .on('drag', function() {
-              RectService.draw(d3.event.x, d3.event.y);
+              RectService.draw(d3.event.x + view.x, d3.event.y + view.y);
             })
             .on('dragend', function(d) {
               RectService.finish();
@@ -120,7 +121,7 @@ angular.module('ewbClient')
               CircleService.create(g);
             })
             .on('drag', function() {
-              CircleService.draw(d3.event.x, d3.event.y);
+              CircleService.draw(d3.event.x + view.x, d3.event.y + view.y);
             })
             .on('dragend', function(d) {
               CircleService.finish();
@@ -130,7 +131,7 @@ angular.module('ewbClient')
               EllipseService.create(g);
             })
             .on('drag', function() {
-              EllipseService.draw(d3.event.x, d3.event.y);
+              EllipseService.draw(d3.event.x + view.x, d3.event.y + view.y);
             })
             .on('dragend', function(d) {
               EllipseService.finish();
@@ -176,7 +177,7 @@ angular.module('ewbClient')
         })
         scope.textWriter.textarea.focus();
       }
-      
+
     }
     var erase = function(d) {
       // console.log(d);
@@ -190,8 +191,6 @@ angular.module('ewbClient')
 
 
 
-    // var wb = ewhiteboardFty(); //initialize
-
     create(); //construct ewhiteboard
     update(); //initial whiteboard update, sans data
 
@@ -199,7 +198,7 @@ angular.module('ewbClient')
     scope.$on('whiteboards:active:data', function(event, data) {
       console.log('Data updated, updating whiteboard...');
       console.log(data);
-      
+
       update(data);
     })
 
@@ -230,7 +229,7 @@ angular.module('ewbClient')
 
     // Constructor
     function create() {
-      
+
       view.w = element[0].clientWidth;
       view.h = element[0].clientHeight;
 
@@ -393,23 +392,21 @@ angular.module('ewbClient')
       if( mode === 'pan' ) gCanvas.call(zoom);
       else gCanvas.on('.zoom', null); //switch back to 'mousedown.zoom' if this doesn't work
 
-      
       // Add drag behavior to all SVG elements if we are in select mode
       if( mode === 'select' ) updating.call(grab);
       else {
         updating.on('.drag', null);
         selectBox.rect.classed('show', false);
       }
+
       // Add click behavior to all SVG elements if we are in erase mode
-
-
       if( mode === 'erase' ) updating.on('click', erase);
       else updating.on('click', null);
 
       // NOTE: add any new modes that affect the canvas should be added here
       // If we are in any of the modes that require dragging behavior on the canvas
       if( _.contains(['draw', 'line', 'rectangle', 'circle', 'ellipse'], mode) ) {
-        
+
         // Add drag behavior to canvas in order to draw
         if( mode === 'draw' ) gCanvas.call(draw);
         // Add drag behavior to canvas in order to draw lines
@@ -423,27 +420,28 @@ angular.module('ewbClient')
       }
       // Otherwise remove the drag behavior from the canvas
       else gCanvas.on('.drag', null); //switch back to 'mousedown.drag' if this doesn't work
-      
 
       // Add click behavior to canvas in order to write text
       if( mode === 'text' ) gCanvas.on('click', writeText, true); // capture flag set to true
       else gCanvas.on('click', null);
 
-      
-    }
-    
 
-    
+    }
+
+
+
 
 
     function move() {
       var t = d3.event.translate,
           s = d3.event.scale;
 
-      // prevent panning to the left and of the canvas
+      console.log(t, s);
+
+      // prevent panning to the left and right of the canvas
       if(t[0] > 0) t[0] = 0;
       else if(t[0] - view.w < -w) t[0] = view.w - w;
-      
+
       // prevent panning above and below the canvas
       if(t[1] > 0) t[1] = 0;
       else if(t[1] - view.h < -h) t[1] = view.h - h;
