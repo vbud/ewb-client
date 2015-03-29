@@ -70,8 +70,8 @@ angular.module('ewbClient')
             .on('dragend', function(d) {
               d3.select(this).classed('dragging', false);
 
-              var newX = d3.event.sourceEvent.clientX - dragOffset.x,
-                  newY = d3.event.sourceEvent.clientY - dragOffset.y;
+              var newX = d3.event.sourceEvent.x + view.x - dragOffset.x,
+                  newY = d3.event.sourceEvent.y + view.y - dragOffset.y;
               // Only update the data if the object has actually moved (dragstart fires on mousedown)
               if(newX !== d.translate.x && newY !== d.translate.y) {
                 // Just send the data that was updated (translate data), along with an id
