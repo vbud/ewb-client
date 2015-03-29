@@ -12,12 +12,8 @@ angular.module('ewbClient')
   $scope.deleteWhiteboard = DataService.deleteWhiteboard;
   $scope.changeWhiteboard = DataService.changeWhiteboard;
 
-  $scope.isActiveMode = function(name) {
-    if( ModeService.isActive(name) ) return true;
-  }
-  $scope.setActiveMode = function(name) {
-    ModeService.setActive(name);
-  }
+  $scope.isActiveMode = ModeService.isActive;
+  $scope.setActiveMode = ModeService.setActive;
 
   // Listen for new available whiteboards
   $scope.$on('whiteboards:available', function(event, d) {
@@ -32,7 +28,7 @@ angular.module('ewbClient')
 
   // Listen for new fill, stroke, and text colors
   // $scope.$on('color:fill', function(event, color) {
-  //   $scope.fillColor = color;    
+  //   $scope.fillColor = color;
   // })
   // $scope.$on('color:stroke', function(event, color) {
   //   $scope.strokeColor = color;

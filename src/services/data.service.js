@@ -29,17 +29,17 @@ angular.module('ewbClient')
     activeWhiteboard = _.find(whiteboards, {id: wb.id});
 
     data = wb.data;
-    
+
     broadcastActiveWhiteboard();
     broadcastData();
   })
 
 
 
-  
+
   // Adds a new object (or array of objects)
   function add(obj) {
-    
+
     var addObj = function(obj) {
       // if obj has an id, try to find it
       var found = obj.id !== undefined ? _.find(data, { id: obj.id }) : undefined;
@@ -53,7 +53,7 @@ angular.module('ewbClient')
         data.push( obj );
         console.log('Object (id:' + obj.id + ') added.');
       }
-      
+
     }
 
     if (obj === null || obj === undefined) return;
@@ -62,13 +62,13 @@ angular.module('ewbClient')
       obj.forEach( function(d) {
         addObj(d);
       })
-    } else if( typeof(obj) === 'object') { 
+    } else if( typeof(obj) === 'object') {
       addObj( obj );
     } else {
       // if not an array or an object, do nothing
       return;
     }
-    
+
     broadcastData();
     updateWhiteboardData();
   }
@@ -91,18 +91,18 @@ angular.module('ewbClient')
       obj.forEach( function(d) {
         removeObj(d);
       })
-    } else if( typeof(obj) === 'object') { 
+    } else if( typeof(obj) === 'object') {
       removeObj( obj );
     } else {
       // if not an array or an object, do nothing
       return;
     }
-    
+
     broadcastData();
-    updateWhiteboardData();      
+    updateWhiteboardData();
   }
 
-  
+
 
 
 
@@ -130,7 +130,7 @@ angular.module('ewbClient')
   // Delete a whiteboard
   function deleteWhiteboard(id) {
     socket.emit('deleteWhiteboard', id);
-  }  
+  }
 
   // Changes the active whiteboard to the whiteboard specified by id
   function changeWhiteboard(id) {
@@ -163,16 +163,16 @@ angular.module('ewbClient')
 
   // Public API
   return {
-    // returns the current active whiteboard data
-    getWhiteboardData: function () {
-      return data;
-    },
     // returns the currently available whiteboards
     getWhiteboards: function() {
       return whiteboards;
     },
     getActiveWhiteboard: function() {
       return activeWhiteboard;
+    },
+    // returns the current active whiteboard data
+    getActiveWhiteboardData: function () {
+      return data;
     },
     createWhiteboard: createWhiteboard,
     deleteWhiteboard: deleteWhiteboard,

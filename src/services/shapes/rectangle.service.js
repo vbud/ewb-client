@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ewbClient')
-.service('RectService', function (DataService, ColorService) {
+.service('RectangleService', function (DataService, ColorService) {
 
 	var shapeData, g, svg;
 
@@ -35,12 +35,12 @@ angular.module('ewbClient')
 		} else {
       var dx = x - shapeData.translate.x,
           dy = y - shapeData.translate.y;
-      
+
       if(dx < 0) shapeData.x = dx; //if x goes negative
       else shapeData.x = 0; //if x goes positive
       if(dy < 0) shapeData.y = dy; //if y goes negative
       else shapeData.y = 0; //if y goes positive
-      
+
 			shapeData.width = Math.abs(dx);
 			shapeData.height = Math.abs(dy);
 		}
