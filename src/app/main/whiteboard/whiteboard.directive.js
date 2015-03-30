@@ -5,11 +5,8 @@ angular.module('ewbClient')
 
   function link(scope, element, attrs) {
 
-    var svg = SvgService.selections.svg,
-        g = SvgService.selections.g,
-        updating = SvgService.selections..updating,
-        entering = SvgService.selections.entering,
-        exiting = SvgService.selections.exiting;
+    // convenience variables for assigning to SvgService selections
+    var svg, g, updating, entering, exiting;
 
     var data;
 
@@ -45,19 +42,12 @@ angular.module('ewbClient')
 
       entering.each( function(d) {
         var thisguy = d3.select(this);
-        // Path
         if(d.type === 'path') thisguy.append('path')
-        // Polyline
         if(d.type === 'polyline') thisguy.append('polyline')
-        // Line
         if(d.type === 'line') thisguy.append('line')
-        // Rectangle
         if(d.type === 'rect') thisguy.append('rect')
-        // Circle
         if(d.type === 'circle') thisguy.append('circle')
-        // Ellipse
         if(d.type === 'ellipse') thisguy.append('ellipse')
-        // Text
         if(d.type === 'text') thisguy.append('text')
       })
 
@@ -136,7 +126,18 @@ angular.module('ewbClient')
     // Constructor
     function init() {
 
+      // Setup the SVG selections
       SvgService.setup(element);
+      // Once we have setup the SVG selections, we can assign them our convenient local variables
+      svg = SvgService.selections.svg;
+      g = SvgService.selections.g;
+      updating = SvgService.selections.updating;
+      entering = SvgService.selections.entering;
+      exiting = SvgService.selections.exiting;
+
+
+
+      ModeService.setup();
 
       MinimapService.setup();
 
@@ -153,20 +154,6 @@ angular.module('ewbClient')
 
       // default to select mode
       ModeService.setActive('select');
-
-      $(element).find('.text-writer textarea').expanding();
-
-      scope.textWriter = {
-        element: $(element).find('.text-writer'),
-        textarea: $(element).find('.text-writer textarea'),
-        active: false,
-        style: {
-          'top': '0px',
-          'left': '0px',
-          'font-size': '12px',
-          'color': '#000'
-        }
-      }
     }
 
 
@@ -176,7 +163,7 @@ angular.module('ewbClient')
   }
 
   return {
-    template: '<div class="text-writer" data-ng-show="textWriter.active"><textarea class="expanding" data-ng-style="textWriter.style"></textarea></div>',
+    template: '<text-writer class="text-writer" data-ng-show="textWriter.active"></text-writer>',
     restrict: 'E',
     link: link
   };

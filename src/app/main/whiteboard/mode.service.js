@@ -2,23 +2,14 @@
 
 angular.module('ewbClient')
 // Manages the mode (available and current modes)
-.service('ModeService', function(SvgService) {
+.service('ModeService', function(SvgService, MinimapService) {
 
-  var modes = ['pan', 'select', 'polyline', 'line', 'rectangle', 'circle', 'ellipse', 'text', 'erase'],
-      activeMode = 'pan'; // pan is active mode by default
+  var modes, activeMode;
 
-  var canvas = SvgService.canvas,
-      view = SvgService.view,
-      // d3 selections
-      gCanvas = SvgService.gCanvas,
-      g = SvgService.g,
-      updating = SvgService.updating,
-      entering = SvgService.entering,
-      exiting = SvgService.exiting,
+  var canvas, view;
+  var gCanvas, g, updating, entering, exiting;
 
-  var zoom = d3.behavior.zoom()
-      .scaleExtent([1, 1]) // disable zooming for now
-      .on('zoom', pan)
+  var zoom;
 
 
 
@@ -46,7 +37,7 @@ angular.module('ewbClient')
     view.x = -t[0]
     view.y = -t[1]
 
-    minimapService.update();
+    MinimapService.update();
   }
 
 
@@ -123,7 +114,7 @@ angular.module('ewbClient')
     else gCanvas.on('.drag', null); //switch back to 'mousedown.drag' if this doesn't work
 
     // Add click behavior to canvas in order to write text
-    if( activeMode === 'text' ) gCanvas.on('click', DrawService.text, true); // capture flag set to true
+    if( activeMode === 'text' ) gCanvas.on('click', DrawService.toggleText, true); // capture flag set to true
     else gCanvas.on('click', null);
   }
 
@@ -149,6 +140,25 @@ angular.module('ewbClient')
 
 
 
+  function setup() {
+    modes = ['pan', 'select', 'polyline', 'line', 'rectangle', 'circle', 'ellipse', 'text', 'erase'];
+    activeMode = 'pan'; // pan is active mode by default
+
+    canvas = SvgService.canvas,
+    view = SvgService.view,
+    gCanvas = SvgService.selections.gCanvas,
+    g = SvgService.selections.g,
+    updating = SvgService.selections.updating,
+    entering = SvgService.selections.entering,
+    exiting = SvgService.selections.exiting;
+
+    zoom = d3.behavior.zoom()
+        .scaleExtent([1, 1]) // disable zooming for now
+        .on('zoom', pan)
+  }
+
+
+
   return {
     // checks if a given mode is the active mode
     isActive: function(mode) {
@@ -166,6 +176,7 @@ angular.module('ewbClient')
         console.warn('Mode "' + mode + '" is not one of the ' + modes.length + ' valid modes; therefore, it cannot be set.');
       }
     },
+    setup: setup,
     bindBehaviors: bindBehaviors,
     bindSelectionBehaviors: bindSelectionBehaviors
   };

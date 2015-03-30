@@ -15,14 +15,16 @@ angular.module('ewbClient')
     g: undefined,
     canvas: undefined,
     viewbox: undefined
-  },
+  };
 
   var interpolateX = d3.interpolateNumber(0, size.w),
       interpolateY = d3.interpolateNumber(0, size.h);
 
   function setup() {
+    var view = SvgService.view;
+
     // Setup the minimap
-    selections.g = svg.append('g')
+    selections.g = SvgService.selections.svg.append('g')
         .classed('minimap', true)
         .attr('transform', 'translate(' + (view.w - size.w - 10) + ',' + (view.h - size.h - 10) + ')')
     selections.canvas = selections.g.append('rect')
@@ -50,7 +52,7 @@ angular.module('ewbClient')
   return {
     get selections() { return selections; },
 
-    setup: setup
+    setup: setup,
     update: update
   };
 

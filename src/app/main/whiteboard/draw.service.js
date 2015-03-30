@@ -10,9 +10,9 @@ angular.module('ewbClient')
   var shapeToServiceMap = {
     polyline: PolylineService,
     line: LineService,
-    rectangle: RectangleService
+    rectangle: RectangleService,
     circle: CircleService,
-    ellipse; EllipseService
+    ellipse: EllipseService
   };
 
   // Map behaviors to each shape service
@@ -27,11 +27,11 @@ angular.module('ewbClient')
         .on('dragend', function(d) {
           service.finish();
         })
-  }
+  })
 
 
   var textWriter = false;
-  var writeText = function() {
+  var toggleText = function() {
     // close the text writer if it is currently open
     if(textWriter) {
       $rootScope.$broadcast('textWriter:close');
@@ -42,44 +42,6 @@ angular.module('ewbClient')
       $rootScope.$broadcast('textWriter:open');
       textWriter = true;
     }
-
-    // If the text writer is already active, save it
-    if( scope.textWriter.active ) {
-      scope.$apply( function() {
-        scope.textWriter.active = false;
-      })
-      // Only save if any text was written in the text box
-      var text = scope.textWriter.textarea.val();
-      if(text.length > 0) {
-        DataService.add({
-          type: 'text',
-          translate: {
-            x: parseInt(scope.textWriter.style.left),
-            y: parseInt(scope.textWriter.style.top)
-          },
-          x: 0,
-          y: 0,
-          text: text,
-          fill: scope.textWriter.style.color,
-          stroke: 'none',
-          'stroke-width': 0,
-          'font-size': scope.textWriter.style['font-size'],
-          'font-style': 'normal'
-        });
-      }
-      // Empty the text writer
-      scope.textWriter.textarea.val('');
-    }
-    // Otherwise, create the text writer and position it correctly
-    else {
-      scope.$apply( function() {
-        scope.textWriter.active = true;
-        scope.textWriter.style.top = d3.event.clientY + 'px';
-        scope.textWriter.style.left = d3.event.clientX + 'px';
-      })
-      scope.textWriter.textarea.focus();
-    }
-
   }
   var erase = function(d) {
     DataService.remove(d);
@@ -90,7 +52,7 @@ angular.module('ewbClient')
     get behavior() {
       return shapeToBehaviorMap;
     },
-    text: writeText,
+    toggleText: toggleText,
     erase: erase
   }
 });
