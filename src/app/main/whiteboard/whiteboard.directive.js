@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ewbClient')
-.directive('whiteboard', function ($rootScope, DataService, SvgService, ModeService, MinimapService) {
+.directive('whiteboard', function ($rootScope, DataService, SvgService, DrawService, ModeService) {
 
   function link(scope, element, attrs) {
 
@@ -115,10 +115,10 @@ angular.module('ewbClient')
 
       });
 
-      MinimapService.update();
+      SvgService.updateMinimap();
 
       // Make sure any new elements have the correct behaviors bound
-      ModeService.bindSelectionBehaviors();
+      SvgService.bindSelectionBehaviors(ModeService.active);
     }
 
 
@@ -137,12 +137,11 @@ angular.module('ewbClient')
 
 
 
-      ModeService.setup();
-
-      MinimapService.setup();
-
       // run a whiteboard update, sans data
       update();
+
+      // default to select mode
+      ModeService.setActive('select');
 
       // when data comes in, update the whiteboard again with the new data
       scope.$on('whiteboards:active:data', function(event, data) {
@@ -152,8 +151,6 @@ angular.module('ewbClient')
         update(data);
       })
 
-      // default to select mode
-      ModeService.setActive('select');
     }
 
 
@@ -163,7 +160,7 @@ angular.module('ewbClient')
   }
 
   return {
-    template: '<text-writer class="text-writer" data-ng-show="textWriter.active"></text-writer>',
+    template: '<text-writer></text-writer>',
     restrict: 'E',
     link: link
   };

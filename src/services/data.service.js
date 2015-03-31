@@ -21,6 +21,9 @@ angular.module('ewbClient')
   socket.on('updateWhiteboardList', function(_whiteboards) {
     whiteboards = _whiteboards;
     broadcastAvailableWhiteboards();
+    // if there is no active whiteboard, join the first one
+    if(activeWhiteboard === undefined)
+      changeWhiteboard(whiteboards[0].id);
   })
 
   // Server sets the active whiteboard and updates its name and data

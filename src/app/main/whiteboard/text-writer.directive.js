@@ -51,12 +51,16 @@ angular.module('ewbClient')
       }
       // Empty the text writer
       scope.textWriter.textarea.val('');
+      // Hide the text writer
+      scope.$apply( function() {
+        scope.textWriter.active = false;
+      });
     })
 
   }
 
   return {
-    template: '<textarea class="expanding" data-ng-style="textWriter.style"></textarea>',
+    template: '<div class="text-writer" data-ng-show="textWriter.active"><textarea class="expanding" data-ng-style="textWriter.style"></textarea></div>',
     restrict: 'E',
     link: link
   };

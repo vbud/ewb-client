@@ -2,35 +2,14 @@
 
 angular.module('ewbClient')
 // Manages the mode (available and current modes)
-.service('DrawService', function($rootScope, SvgService, PolylineService, LineService, RectangleService, CircleService, EllipseService) {
+.service('DrawService', function($rootScope, DataService, PolylineService, LineService, RectangleService, CircleService, EllipseService) {
 
-  var view = SvgService.view,
-      g = SvgService.selections.g;
+  var view, g;
 
-  var shapeToServiceMap = {
-    polyline: PolylineService,
-    line: LineService,
-    rectangle: RectangleService,
-    circle: CircleService,
-    ellipse: EllipseService
-  };
-
-  // Map behaviors to each shape service
-  var shapeToBehaviorMap = _.mapValues(serviceMap, function(service) {
-    return d3.behavior.drag()
-        .on('dragstart', function() {
-          service.create(g);
-        })
-        .on('drag', function() {
-          service.draw(d3.event.x + view.x, d3.event.y + view.y);
-        })
-        .on('dragend', function(d) {
-          service.finish();
-        })
-  })
-
+  var shapeToServiceMap, shapeToBehaviorMap;
 
   var textWriter = false;
+
   var toggleText = function() {
     // close the text writer if it is currently open
     if(textWriter) {
@@ -43,8 +22,36 @@ angular.module('ewbClient')
       textWriter = true;
     }
   }
+
   var erase = function(d) {
     DataService.remove(d);
+  }
+
+  var setup = function(view, g) {
+
+    // Map of shape names to services
+    shapeToServiceMap = {
+      polyline: PolylineService,
+      line: LineService,
+      rectangle: RectangleService,
+      circle: CircleService,
+      ellipse: EllipseService
+    };
+
+    // Map behaviors to each shape service
+    shapeToBehaviorMap = _.mapValues(shapeToServiceMap, function(service) {
+      return d3.behavior.drag()
+          .on('dragstart', function() {
+            service.create(g);
+          })
+          .on('drag', function() {
+            service.draw(d3.event.x + view.x, d3.event.y + view.y);
+          })
+          .on('dragend', function(d) {
+            service.finish();
+          })
+    })
+
   }
 
   return {
@@ -53,6 +60,7 @@ angular.module('ewbClient')
       return shapeToBehaviorMap;
     },
     toggleText: toggleText,
-    erase: erase
+    erase: erase,
+    setup: setup
   }
 });

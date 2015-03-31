@@ -2,7 +2,7 @@
 
 angular.module('ewbClient')
 // Handles the minimap view
-.service('MinimapService', function(SvgService) {
+.service('MinimapService', function() {
 
   // minimap needs to share same ratio as SvgService.canvas w, h
   var size = {
@@ -20,11 +20,10 @@ angular.module('ewbClient')
   var interpolateX = d3.interpolateNumber(0, size.w),
       interpolateY = d3.interpolateNumber(0, size.h);
 
-  function setup() {
-    var view = SvgService.view;
+  function setup(svg, view, canvas) {
 
     // Setup the minimap
-    selections.g = SvgService.selections.svg.append('g')
+    selections.g = svg.append('g')
         .classed('minimap', true)
         .attr('transform', 'translate(' + (view.w - size.w - 10) + ',' + (view.h - size.h - 10) + ')')
     selections.canvas = selections.g.append('rect')
@@ -34,13 +33,11 @@ angular.module('ewbClient')
     selections.viewbox = selections.g.append('rect')
         .classed('viewbox', true)
 
-    update()
+    update(view, canvas);
   }
 
   // TODO: make this work with zoom (once I re-enable zoom)
-  function update() {
-    var canvas = SvgService.canvas,
-        view = SvgService.view;
+  function update(view, canvas) {
 
     selections.viewbox
       .attr('width', interpolateX( view.w/canvas.w ))
