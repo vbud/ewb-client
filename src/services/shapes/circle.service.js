@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ewbClient')
-.service('CircleService', function (DataService, ColorService) {
+.factory('CircleService', function (DataService, ColorService) {
 
   var shapeData, g, svg;
 

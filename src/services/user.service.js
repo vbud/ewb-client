@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('ewbClient')
-.service('UserService', function () {
+.factory('UserService', function () {
 
-	var user = 'anonymous';
+  var user = 'anonymous';
 
   return {
-  	getCurrentUser: function() {
-	  	return user;
-	  }
+    getCurrentUser: function() {
+      return user;
+    }
   };
 
 });

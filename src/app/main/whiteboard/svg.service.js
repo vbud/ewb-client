@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ewbClient')
-.service('SvgService', function(DataService, MinimapService, DrawService) {
+.factory('SvgService', function(DataService, MinimapService, DrawService) {
 
   // size of the available canvas
   var canvas = {

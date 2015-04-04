@@ -2,7 +2,7 @@
 
 angular.module('ewbClient')
 // Manages the mode (available and current modes)
-.service('ModeService', function(SvgService) {
+.factory('ModeService', function(SvgService) {
 
   var modes, activeMode;
 

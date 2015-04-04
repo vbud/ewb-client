@@ -6,7 +6,7 @@ angular.module('ewbClient')
   function link(scope, element, attrs) {
 
     // convenience variables for assigning to SvgService selections
-    var svg, g, updating, entering, exiting;
+    var selections;
 
     var data;
 
@@ -27,20 +27,17 @@ angular.module('ewbClient')
         selection.attr( attrObj ).style( styleObj );
       };
 
-      // updates data to new data
-      if(_data !== undefined) data = _data;
-      // console.log(data);
-
       // if there is no data, do nothing
-      if(data === undefined)
+      if(_data === undefined)
         return;
 
-      updating = g.selectAll('g').data(data, function(d) { return d.id; }); //data constancy based on id;
-      // updating.data(data, function(d) { return d.id; }); //data constancy based on id
-      entering = updating.enter().append('g');
-      exiting = updating.exit().remove();
+      data = _data;
 
-      entering.each( function(d) {
+      selections.updating = selections.g.selectAll('g').data(data, function(d) { return d.id; }); //data constancy based on id;
+      selections.entering = selections.updating.enter().append('g');
+      selections.exiting = selections.updating.exit().remove();
+
+      selections.entering.each( function(d) {
         var thisguy = d3.select(this);
         if(d.type === 'path') thisguy.append('path')
         if(d.type === 'polyline') thisguy.append('polyline')
@@ -52,7 +49,7 @@ angular.module('ewbClient')
       })
 
       // Updates each shape based on its type and valid attributes/styles for that type
-      updating.each( function(d) {
+      selections.updating.each( function(d) {
         var thisguy = d3.select(this),
             attrs, styles;
 
@@ -118,7 +115,7 @@ angular.module('ewbClient')
       SvgService.updateMinimap();
 
       // Make sure any new elements have the correct behaviors bound
-      SvgService.bindSelectionBehaviors(ModeService.active);
+      SvgService.bindSelectionBehaviors(ModeService.activeMode);
     }
 
 
@@ -129,13 +126,7 @@ angular.module('ewbClient')
       // Setup the SVG selections
       SvgService.setup(element);
       // Once we have setup the SVG selections, we can assign them our convenient local variables
-      svg = SvgService.selections.svg;
-      g = SvgService.selections.g;
-      updating = SvgService.selections.updating;
-      entering = SvgService.selections.entering;
-      exiting = SvgService.selections.exiting;
-
-
+      selections = SvgService.selections;
 
       // run a whiteboard update, sans data
       update();

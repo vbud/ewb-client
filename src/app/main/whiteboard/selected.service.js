@@ -2,7 +2,7 @@
 
 angular.module('ewbClient')
 // Manages the selected items and the box around selected elements
-.service('SelectedService', function(SvgService) {
+.factory('SelectedService', function(SvgService) {
 
   var size = {
     w: 0,

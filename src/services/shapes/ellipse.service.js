@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ewbClient')
-.service('EllipseService', function (DataService, ColorService) {
+.factory('EllipseService', function (DataService, ColorService) {
 
   var shapeData, g, svg;
 

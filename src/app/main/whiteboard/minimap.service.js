@@ -2,7 +2,7 @@
 
 angular.module('ewbClient')
 // Handles the minimap view
-.service('MinimapService', function() {
+.factory('MinimapService', function() {
 
   // minimap needs to share same ratio as SvgService.canvas w, h
   var size = {

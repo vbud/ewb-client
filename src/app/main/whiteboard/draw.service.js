@@ -2,9 +2,7 @@
 
 angular.module('ewbClient')
 // Manages the mode (available and current modes)
-.service('DrawService', function($rootScope, DataService, PolylineService, LineService, RectangleService, CircleService, EllipseService) {
-
-  var view, g;
+.factory('DrawService', function($rootScope, DataService, PolylineService, LineService, RectangleService, CircleService, EllipseService) {
 
   var shapeToServiceMap, shapeToBehaviorMap;
 

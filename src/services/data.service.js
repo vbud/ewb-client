@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ewbClient')
-.service('DataService', function ($rootScope, UserService, SocketService) {
+.factory('DataService', function ($rootScope, UserService, SocketService) {
 
   var user = UserService.getCurrentUser(),
       socket = SocketService;
@@ -78,15 +78,15 @@ angular.module('ewbClient')
 
 
 
+  var removeObj = function(obj) {
+    if(obj.id !== undefined) {
+      _.remove(data, function(d) { return d.id === obj.id; });
+    }
+    console.log('Object (id:' + obj.id + ') removed.');
+  }
+
   // Removes an existing object (or array of objects)
   function remove(obj) {
-
-    var removeObj = function(obj) {
-      if(obj.id !== undefined) {
-        _.remove(data, function(d) { return d.id === obj.id; });
-      }
-      console.log('Object (id:' + obj.id + ') removed.');
-    }
 
     if (obj === null || obj === undefined) return;
 
@@ -95,7 +95,7 @@ angular.module('ewbClient')
         removeObj(d);
       })
     } else if( typeof(obj) === 'object') {
-      removeObj( obj );
+      removeObj(obj);
     } else {
       // if not an array or an object, do nothing
       return;

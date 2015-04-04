@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ewbClient')
-.service('ColorService', function () {
+.factory('ColorService', function () {
 
   // Set default colors
   var fill = '#00ff00',
